@@ -6,6 +6,8 @@ A cinematic, scroll-driven storytelling experience that travels from the vacuum 
 
 ![status](https://img.shields.io/badge/status-live-00ff9d?style=flat-square) ![stack](https://img.shields.io/badge/stack-Three.js%20%2B%20GSAP-111?style=flat-square) ![build](https://img.shields.io/badge/build-none%20required-555?style=flat-square)
 
+**▶ Live: [nxolson5.github.io/silicon-to-signal](https://nxolson5.github.io/silicon-to-signal/)**
+
 ---
 
 ## The experience
