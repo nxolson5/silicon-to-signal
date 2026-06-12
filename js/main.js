@@ -1,12 +1,25 @@
 // ============================================================
 // main.js — boot & orchestration
+// If WebGL is unavailable the 3D stage degrades to a no-op and
+// the scroll narrative still runs in full.
 // ============================================================
 
-import { initScene } from "./scene.js";
 import { initStory } from "./story.js";
 import { initConsole } from "./themes.js";
 
-const stage = initScene(document.getElementById("stage"));
+const noopStage = {
+  showArtifact() {}, setAccent() {}, setWireframe() {}, setDrift() {},
+};
+
+let stage = noopStage;
+try {
+  const { initScene } = await import("./scene.js");
+  stage = initScene(document.getElementById("stage"));
+} catch (err) {
+  console.warn("3D stage unavailable, continuing in 2D:", err);
+  document.getElementById("stage").remove();
+}
+
 initStory(stage);
 initConsole(stage);
 
