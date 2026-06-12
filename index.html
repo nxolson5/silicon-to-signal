@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SILICON → SIGNAL — An Interactive Documentary</title>
+  <meta name="description" content="A cinematic scroll journey from vacuum tubes to the inside of the internet — DNS, TCP, undersea cables, data centers, and the AI era." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+</head>
+<body data-theme="phosphor">
+
+  <!-- == PERSISTENT 3D STAGE ===================================== -->
+  <canvas id="stage" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- == HUD ===================================================== -->
+  <header class="hud">
+    <div class="hud__brand mono">SILICON&nbsp;→&nbsp;SIGNAL</div>
+    <div class="hud__meta mono">
+      <span id="hud-chapter">CH·00</span>
+      <span class="hud__sep">/</span>
+      <span id="hud-label">BOOT</span>
+    </div>
+  </header>
+  <div class="progress" aria-hidden="true"><div class="progress__bar" id="progress-bar"></div></div>
+
+  <!-- == MATERIAL / THEME CONSOLE ================================ -->
+  <aside class="console" id="console" aria-label="Theme and material controls">
+    <button class="console__toggle mono" id="console-toggle" aria-expanded="false">⌘ CONSOLE</button>
+    <div class="console__panel">
+      <div class="console__row">
+        <span class="console__label mono">MATERIAL</span>
+        <div class="swatches">
+          <button class="swatch is-active" data-swatch="phosphor" style="--c:#00ff9d" aria-label="Phosphor theme"></button>
+          <button class="swatch" data-swatch="hologram" style="--c:#4cc2ff" aria-label="Hologram theme"></button>
+          <button class="swatch" data-swatch="plasma"   style="--c:#ff4ecd" aria-label="Plasma theme"></button>
+          <button class="swatch" data-swatch="amber"    style="--c:#ffb347" aria-label="Amber theme"></button>
+        </div>
+      </div>
+      <div class="console__row">
+        <span class="console__label mono">WIREFRAME</span>
+        <button class="pill mono" id="wire-toggle" aria-pressed="false">OFF</button>
+      </div>
+      <div class="console__row">
+        <span class="console__label mono">AMBIENT</span>
+        <button class="pill mono" id="audio-toggle" aria-pressed="false">MUTED</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- == NARRATIVE =============================================== -->
+  <main id="narrative">
+
+    <!-- HERO -->
+    <section class="panel panel--hero" data-chapter="00" data-label="ORIGIN" data-artifact="tube">
+      <div class="panel__inner">
+        <p class="kicker mono reveal">AN INTERACTIVE DOCUMENTARY · EST. RUNTIME — ONE SCROLL</p>
+        <h1 class="hero-title reveal">Silicon <em>to</em> Signal</h1>
+        <p class="lede reveal">Eighty years ago a computer filled a room and weighed thirty tons.
+        Today a request crosses an ocean in a tenth of a second.
+        This is the story of how we got from one to the other —
+        and what actually happens when you press <span class="key mono">ENTER</span>.</p>
+        <div class="scroll-cue mono reveal">SCROLL TO BEGIN<span class="scroll-cue__line"></span></div>
+      </div>
+    </section>
+
+    <!-- ERA 01 — VACUUM TUBES -->
+    <section class="panel" data-chapter="01" data-label="VACUUM" data-artifact="tube">
+      <div class="panel__inner panel__inner--left">
+        <p class="kicker mono reveal">CHAPTER 01 · 1943 – 1955</p>
+        <h2 class="reveal">The Room-Sized Mind</h2>
+        <p class="reveal">ENIAC computed with <strong>17,468 vacuum tubes</strong> — fragile glass
+        valves that glowed like small suns and failed, on average, every two days. Programming it
+        meant rewiring it. Yet it could do in thirty seconds what took a human mathematician
+        twenty hours.</p>
+        <div class="spec mono reveal">
+          <div class="spec__row"><span>MACHINE</span><span>ENIAC · 1945</span></div>
+          <div class="spec__row"><span>MASS</span><span>27,000 kg</span></div>
+          <div class="spec__row"><span>POWER</span><span>150 kW</span></div>
+          <div class="spec__row"><span>CLOCK</span><span>~5 kHz</span></div>
+          <div class="spec__row"><span>SWITCH</span><span>HOT GLASS</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ERA 02 — TRANSISTOR -->
+    <section class="panel" data-chapter="02" data-label="JUNCTION" data-artifact="transistor">
+      <div class="panel__inner panel__inner--right">
+        <p class="kicker mono reveal">CHAPTER 02 · 1947 – 1965</p>
+        <h2 class="reveal">The Crystal That Changed Everything</h2>
+        <p class="reveal">In December 1947 at Bell Labs, a sliver of germanium did the job of a
+        vacuum tube with <strong>no heat, no glass, no warm-up</strong>. The transistor was a switch
+        made of nothing but matter and physics — small enough to vanish, reliable enough to forget.
+        Everything after this is just the same trick, repeated trillions of times.</p>
+        <div class="spec mono reveal">
+          <div class="spec__row"><span>DEVICE</span><span>POINT-CONTACT TRANSISTOR</span></div>
+          <div class="spec__row"><span>BORN</span><span>BELL LABS · DEC 1947</span></div>
+          <div class="spec__row"><span>SIZE</span><span>~1 cm → 2 nm TODAY</span></div>
+          <div class="spec__row"><span>STATE</span><span>0 / 1</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ERA 03 — MICROPROCESSOR -->
+    <section class="panel" data-chapter="03" data-label="MICRO" data-artifact="chip">
+      <div class="panel__inner panel__inner--left">
+        <p class="kicker mono reveal">CHAPTER 03 · 1971 – PRESENT</p>
+        <h2 class="reveal">A Computer on a Fingertip</h2>
+        <p class="reveal">The Intel 4004 put an entire CPU — <strong>2,300 transistors</strong> —
+        on one chip the size of a fingernail. Moore's Law became a metronome: transistor counts
+        doubling roughly every two years, for fifty years. A modern flagship chip carries
+        <strong>20+ billion</strong> transistors, each smaller than a virus.</p>
+        <div class="spec mono reveal">
+          <div class="spec__row"><span>CHIP</span><span>INTEL 4004 · 1971</span></div>
+          <div class="spec__row"><span>TRANSISTORS</span><span>2,300 → 2×10¹⁰</span></div>
+          <div class="spec__row"><span>PROCESS</span><span>10 µm → 2 nm</span></div>
+          <div class="spec__row"><span>LAW</span><span>MOORE · ×2 / 24 MO</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ERA 04 — PERSONAL COMPUTER -->
+    <section class="panel" data-chapter="04" data-label="HOME" data-artifact="pc">
+      <div class="panel__inner panel__inner--right">
+        <p class="kicker mono reveal">CHAPTER 04 · 1977 – 1995</p>
+        <h2 class="reveal">The Machine Comes Home</h2>
+        <p class="reveal">Apple II. Commodore 64. IBM PC. Macintosh. The computer left the
+        laboratory and landed on the kitchen table — and with the graphical interface, you no
+        longer had to speak its language. <strong>It learned to speak yours.</strong>
+        By 1995, a hundred million homes had one. They were all still alone.</p>
+        <div class="spec mono reveal">
+          <div class="spec__row"><span>ICON</span><span>APPLE II · 1977</span></div>
+          <div class="spec__row"><span>RAM</span><span>4 KB → 16 MB</span></div>
+          <div class="spec__row"><span>UI</span><span>CLI → GUI · 1984</span></div>
+          <div class="spec__row"><span>STATUS</span><span>OFFLINE</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ERA 05 — THE NETWORK -->
+    <section class="panel" data-chapter="05" data-label="NETWORK" data-artifact="globe">
+      <div class="panel__inner panel__inner--left">
+        <p class="kicker mono reveal">CHAPTER 05 · 1969 – 1995</p>
+        <h2 class="reveal">The Wires Wake Up</h2>
+        <p class="reveal">October 29, 1969: a UCLA computer sends <span class="key mono">LO</span>
+        to Stanford — the system crashes before the “GIN” of “LOGIN” arrives. From that stumble:
+        ARPANET, then TCP/IP, then in 1989 Tim Berners-Lee proposes the World Wide Web.
+        <strong>The machines stopped being alone.</strong></p>
+        <div class="spec mono reveal">
+          <div class="spec__row"><span>FIRST MSG</span><span>"LO" · OCT 1969</span></div>
+          <div class="spec__row"><span>PROTOCOL</span><span>TCP/IP · 1983</span></div>
+          <div class="spec__row"><span>WWW</span><span>CERN · 1989</span></div>
+          <div class="spec__row"><span>HOSTS</span><span>4 → 10⁹+</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERLUDE — PRESS ENTER -->
+    <section class="panel panel--interlude" data-chapter="--" data-label="ENTER" data-artifact="globe">
+      <div class="panel__inner panel__inner--center">
+        <p class="kicker mono reveal">INTERLUDE</p>
+        <h2 class="interlude-title reveal">You type a URL.<br/>You press <span class="key key--lg mono">ENTER</span>.</h2>
+        <p class="lede reveal">What happens in the next 200 milliseconds is the most
+        sophisticated relay race our species has ever built. Let's follow your request down
+        the wire.</p>
+        <div class="url-bar mono reveal" aria-hidden="true">
+          <span class="url-bar__proto">https://</span><span id="url-type">example.com</span><span class="url-bar__caret"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- NET 06 — DNS -->
+    <section class="panel" data-chapter="06" data-label="DNS" data-artifact="globe">
+      <div class="panel__inner panel__inner--right">
+        <p class="kicker mono reveal">INSIDE THE INTERNET · STEP 1 · ~0–30 ms</p>
+        <h2 class="reveal">The Phonebook of the Planet</h2>
+        <p class="reveal">Computers don't know names — they know numbers. Before anything moves,
+        your machine asks the <strong>Domain Name System</strong>: resolver → root server →
+        <span class="key mono">.com</span> TLD → authoritative nameserver. Four questions later,
+        “example.com” becomes <span class="key mono">93.184.215.14</span>.</p>
+        <div class="spec mono reveal">
+          <div class="spec__row"><span>QUERY</span><span>example.com → A?</span></div>
+          <div class="spec__row"><span>PATH</span><span>ROOT → TLD → AUTH</span></div>
+          <div class="spec__row"><span>ROOT OPS</span><span>13 IDENTITIES · 1700+ NODES</span></div>
+          <div class="spec__row"><span>ANSWER</span><span>93.184.215.14</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NET 07 — TCP HANDSHAKE -->
+    <section class="panel" data-chapter="07" data-label="TCP" data-artifact="globe">
+      <div class="panel__inner panel__inner--left">
+        <p class="kicker mono reveal">INSIDE THE INTERNET · STEP 2 · ~30–60 ms</p>
+        <h2 class="reveal">The Three-Way Handshake</h2>
+        <p class="reveal">Now your machine and the server agree to talk — a formal bow before the
+        conversation: <span class="key mono">SYN</span> → <span class="key mono">SYN-ACK</span> →
+        <span class="key mono">ACK</span>. Then TLS wraps the channel in encryption. Your request
+        is shredded into <strong>packets</strong> — independent envelopes, each free to find its
+        own route and reassemble at the destination.</p>
+        <div class="spec mono reveal">
+          <div class="spec__row"><span>HANDSHAKE</span><span>SYN / SYN-ACK / ACK</span></div>
+          <div class="spec__row"><span>CRYPTO</span><span>TLS 1.3</span></div>
+          <div class="spec__row"><span>MTU</span><span>~1,500 BYTES</span></div>
+          <div class="spec__row"><span>ORDER</span><span>ANY → REASSEMBLED</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NET 08 — BACKBONE -->
+    <section class="panel" data-chapter="08" data-label="BACKBONE" data-artifact="globe">
+      <div class="panel__inner panel__inner--right">
+        <p class="kicker mono reveal">INSIDE THE INTERNET · STEP 3 · ~60–120 ms</p>
+        <h2 class="reveal">Light Under the Ocean</h2>
+        <p class="reveal">Your packets hop router to router — each one reading the destination and
+        choosing the next leg in microseconds. Between continents they become <strong>pulses of
+        laser light</strong> inside submarine fiber cables the width of a garden hose, lying on the
+        ocean floor. Around <strong>500 cables</strong> carry ~99% of intercontinental traffic.</p>
+        <div class="spec mono reveal">
+          <div class="spec__row"><span>HOPS</span><span>10 – 20 ROUTERS</span></div>
+          <div class="spec__row"><span>MEDIUM</span><span>SINGLE-MODE FIBER</span></div>
+          <div class="spec__row"><span>SPEED</span><span>~2×10⁸ m/s IN GLASS</span></div>
+          <div class="spec__row"><span>SUBSEA</span><span>~1.4M km OF CABLE</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NET 09 — DATA CENTER -->
+    <section class="panel" data-chapter="09" data-label="DATACENTER" data-artifact="rack">
+      <div class="panel__inner panel__inner--left">
+        <p class="kicker mono reveal">INSIDE THE INTERNET · STEP 4 · ~120–180 ms</p>
+        <h2 class="reveal">The Building That Answers</h2>
+        <p class="reveal">Your request arrives at a windowless building humming at 45 dB —
+        a <strong>data center</strong>. Load balancers pick a healthy server; the app queries a
+        database; a response is assembled, compressed, encrypted, and fired back down the same
+        wire. Football fields of racks, cooled like a glacier, lit like a starship.</p>
+        <div class="spec mono reveal">
+          <div class="spec__row"><span>SCALE</span><span>10⁴ – 10⁵ SERVERS / SITE</span></div>
+          <div class="spec__row"><span>RESPONSE</span><span>HTTP/2 200 OK</span></div>
+          <div class="spec__row"><span>INTERNAL</span><span>&lt; 1 ms EAST-WEST</span></div>
+          <div class="spec__row"><span>UPTIME</span><span>99.999%</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NET 10 — CLOUD & AI -->
+    <section class="panel" data-chapter="10" data-label="CLOUD·AI" data-artifact="core">
+      <div class="panel__inner panel__inner--right">
+        <p class="kicker mono reveal">INSIDE THE INTERNET · STEP 5 · NOW</p>
+        <h2 class="reveal">The Weather of Intelligence</h2>
+        <p class="reveal">The room-sized machine came back — as <strong>the cloud</strong>: planet-scale
+        computers rented by the millisecond. And inside those buildings, something new: GPU clusters
+        training models with hundreds of billions of parameters. Every era of this story is still
+        running, stacked — tubes became transistors became chips became networks became
+        <strong>a substrate for intelligence itself</strong>.</p>
+        <div class="spec mono reveal">
+          <div class="spec__row"><span>PARADIGM</span><span>COMPUTE AS UTILITY</span></div>
+          <div class="spec__row"><span>ACCEL</span><span>10⁴+ GPU CLUSTERS</span></div>
+          <div class="spec__row"><span>MODELS</span><span>10¹¹+ PARAMETERS</span></div>
+          <div class="spec__row"><span>NEXT</span><span>UNWRITTEN</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUTRO -->
+    <section class="panel panel--outro" data-chapter="11" data-label="EOF" data-artifact="core">
+      <div class="panel__inner panel__inner--center">
+        <p class="kicker mono reveal">EPILOGUE</p>
+        <h2 class="reveal">200 milliseconds.<br/>Eighty years in the making.</h2>
+        <p class="lede reveal">The page loaded before you finished blinking. Inside that blink:
+        glass valves, germanium crystals, photolithography, packet switching, lasers under the
+        Pacific, and a building full of machines that answered you personally.
+        <em>That's what a click costs — and what a century paid for it.</em></p>
+        <p class="mono outro-sig reveal">// SILICON → SIGNAL · EOF · SCROLL UP TO REWIND</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
